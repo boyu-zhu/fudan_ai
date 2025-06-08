@@ -1,0 +1,336 @@
+Dataset,Network Structure (comma-separated),Epochs,Learning Rate,Loss Curve,Activation Visualization,timestamp
+MNIST,"784,10,10",5,0.001,.gradio\flagged\Loss Curve\52361a222b4f9aae2457\loss.png,"'
+    <canvas id='visCanvas' width='800' height='500'></canvas>
+    <button onclick='window.loadAndPlay()'>Play Animation</button>
+    <button onclick='window.stopAnimation()'>Stop</button>
+    <script>
+    window.drawNetwork = function(layerSizes, activations) {
+        const canvas = document.getElementById('visCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const neuronRadius = 10;
+        const spacingX = canvas.width / (layerSizes.length + 1);
+
+        for (let l = 0; l < layerSizes.length; l++) {
+            const layerSize = layerSizes[l];
+            const spacingY = canvas.height / (layerSize + 1);
+            for (let n = 0; n < layerSize; n++) {
+                const x = spacingX * (l + 1);
+                const y = spacingY * (n + 1);
+                const activation = activations[l][n];
+                const colorIntensity = Math.floor(activation * 255);
+                ctx.beginPath();
+                ctx.arc(x, y, neuronRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgb(${colorIntensity}, ${255 - colorIntensity}, 150)`;
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+    };
+
+    let currentEpoch = 0;
+    let intervalId = null;
+    let isPlaying = false;
+
+    window.loadAndPlay = async function(fps = 2) {
+        if (isPlaying) return;
+        isPlaying = true;
+
+        const res0 = await fetch(`/file/activations/epoch_0.json`);
+        if (!res0.ok) {
+            console.error(""Cannot load epoch_0.json"");
+            return;
+        }
+        const data0 = await res0.json();
+        window.layerSizes = data0.map(layer => layer.length);  // 动态设置层结构
+        window.drawNetwork(window.layerSizes, data0);
+
+        currentEpoch = 1;
+        intervalId = setInterval(async () => {
+            const res = await fetch(`/file/activations/epoch_${currentEpoch}.json`);
+            if (!res.ok) {
+                clearInterval(intervalId);
+                isPlaying = false;
+                return;
+            }
+            const data = await res.json();
+            window.drawNetwork(window.layerSizes, data);
+            currentEpoch++;
+        }, 1000 / fps);
+    };
+
+    window.stopAnimation = function() {
+        clearInterval(intervalId);
+        isPlaying = false;
+    };
+    </script>
+    ",2025-06-02 11:25:56.042212
+MNIST,"784,10,10",5,0.001,.gradio\flagged\Loss Curve\a86944d6f7c1c21f4717\loss.png,"'
+    <canvas id='visCanvas' width='800' height='500'></canvas>
+    <button onclick='window.loadAndPlay()'>Play Animation</button>
+    <button onclick='window.stopAnimation()'>Stop</button>
+    <script>
+    window.drawNetwork = function(layerSizes, activations) {
+        const canvas = document.getElementById('visCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const neuronRadius = 10;
+        const spacingX = canvas.width / (layerSizes.length + 1);
+
+        for (let l = 0; l < layerSizes.length; l++) {
+            const layerSize = layerSizes[l];
+            const spacingY = canvas.height / (layerSize + 1);
+            for (let n = 0; n < layerSize; n++) {
+                const x = spacingX * (l + 1);
+                const y = spacingY * (n + 1);
+                const activation = activations[l][n];
+                const colorIntensity = Math.floor(activation * 255);
+                ctx.beginPath();
+                ctx.arc(x, y, neuronRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgb(${colorIntensity}, ${255 - colorIntensity}, 150)`;
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+    };
+
+    let currentEpoch = 0;
+    let intervalId = null;
+    let isPlaying = false;
+
+    window.loadAndPlay = async function(fps = 2) {
+        if (isPlaying) return;
+        isPlaying = true;
+
+        const res0 = await fetch(`/file/activations/epoch_0.json`);
+        if (!res0.ok) {
+            console.error(""Cannot load epoch_0.json"");
+            return;
+        }
+        const data0 = await res0.json();
+        window.layerSizes = data0.map(layer => layer.length);  // 动态设置层结构
+        window.drawNetwork(window.layerSizes, data0);
+
+        currentEpoch = 1;
+        intervalId = setInterval(async () => {
+            const res = await fetch(`/file/activations/epoch_${currentEpoch}.json`);
+            if (!res.ok) {
+                clearInterval(intervalId);
+                isPlaying = false;
+                return;
+            }
+            const data = await res.json();
+            window.drawNetwork(window.layerSizes, data);
+            currentEpoch++;
+        }, 1000 / fps);
+    };
+
+    window.stopAnimation = function() {
+        clearInterval(intervalId);
+        isPlaying = false;
+    };
+    </script>
+    ",2025-06-02 11:26:01.666561
+MNIST,"784,10,10",5,0.001,.gradio\flagged\Loss Curve\6544eaaa2494556a0bd2\loss.png,"'
+    <canvas id='visCanvas' width='800' height='500'></canvas>
+    <button onclick='window.loadAndPlay()'>Play Animation</button>
+    <button onclick='window.stopAnimation()'>Stop</button>
+    <script>
+    window.drawNetwork = function(layerSizes, activations) {
+        const canvas = document.getElementById('visCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const neuronRadius = 10;
+        const spacingX = canvas.width / (layerSizes.length + 1);
+
+        for (let l = 0; l < layerSizes.length; l++) {
+            const layerSize = layerSizes[l];
+            const spacingY = canvas.height / (layerSize + 1);
+            for (let n = 0; n < layerSize; n++) {
+                const x = spacingX * (l + 1);
+                const y = spacingY * (n + 1);
+                const activation = activations[l][n];
+                const colorIntensity = Math.floor(activation * 255);
+                ctx.beginPath();
+                ctx.arc(x, y, neuronRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgb(${colorIntensity}, ${255 - colorIntensity}, 150)`;
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+    };
+
+    let currentEpoch = 0;
+    let intervalId = null;
+    let isPlaying = false;
+
+    window.loadAndPlay = async function(fps = 2) {
+        if (isPlaying) return;
+        isPlaying = true;
+
+        const res0 = await fetch(`/file/activations/epoch_0.json`);
+        if (!res0.ok) {
+            console.error(""Cannot load epoch_0.json"");
+            return;
+        }
+        const data0 = await res0.json();
+        window.layerSizes = data0.map(layer => layer.length);  // 动态设置层结构
+        window.drawNetwork(window.layerSizes, data0);
+
+        currentEpoch = 1;
+        intervalId = setInterval(async () => {
+            const res = await fetch(`/file/activations/epoch_${currentEpoch}.json`);
+            if (!res.ok) {
+                clearInterval(intervalId);
+                isPlaying = false;
+                return;
+            }
+            const data = await res.json();
+            window.drawNetwork(window.layerSizes, data);
+            currentEpoch++;
+        }, 1000 / fps);
+    };
+
+    window.stopAnimation = function() {
+        clearInterval(intervalId);
+        isPlaying = false;
+    };
+    </script>
+    ",2025-06-02 11:26:03.118557
+MNIST,"784,10,10",5,0.001,.gradio\flagged\Loss Curve\5a0de8b9aefd929e1096\loss.png,"'
+    <canvas id='visCanvas' width='800' height='500'></canvas>
+    <button onclick='window.loadAndPlay()'>Play Animation</button>
+    <button onclick='window.stopAnimation()'>Stop</button>
+    <script>
+    window.drawNetwork = function(layerSizes, activations) {
+        const canvas = document.getElementById('visCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const neuronRadius = 10;
+        const spacingX = canvas.width / (layerSizes.length + 1);
+
+        for (let l = 0; l < layerSizes.length; l++) {
+            const layerSize = layerSizes[l];
+            const spacingY = canvas.height / (layerSize + 1);
+            for (let n = 0; n < layerSize; n++) {
+                const x = spacingX * (l + 1);
+                const y = spacingY * (n + 1);
+                const activation = activations[l][n];
+                const colorIntensity = Math.floor(activation * 255);
+                ctx.beginPath();
+                ctx.arc(x, y, neuronRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgb(${colorIntensity}, ${255 - colorIntensity}, 150)`;
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+    };
+
+    let currentEpoch = 0;
+    let intervalId = null;
+    let isPlaying = false;
+
+    window.loadAndPlay = async function(fps = 2) {
+        if (isPlaying) return;
+        isPlaying = true;
+
+        const res0 = await fetch(`/file/activations/epoch_0.json`);
+        if (!res0.ok) {
+            console.error(""Cannot load epoch_0.json"");
+            return;
+        }
+        const data0 = await res0.json();
+        window.layerSizes = data0.map(layer => layer.length);  // 动态设置层结构
+        window.drawNetwork(window.layerSizes, data0);
+
+        currentEpoch = 1;
+        intervalId = setInterval(async () => {
+            const res = await fetch(`/file/activations/epoch_${currentEpoch}.json`);
+            if (!res.ok) {
+                clearInterval(intervalId);
+                isPlaying = false;
+                return;
+            }
+            const data = await res.json();
+            window.drawNetwork(window.layerSizes, data);
+            currentEpoch++;
+        }, 1000 / fps);
+    };
+
+    window.stopAnimation = function() {
+        clearInterval(intervalId);
+        isPlaying = false;
+    };
+    </script>
+    ",2025-06-02 11:26:40.790674
+MNIST,"784,10,10",5,0.001,.gradio\flagged\Loss Curve\bbab1f2056573ec6b397\loss.png,"'
+    <canvas id='visCanvas' width='800' height='500'></canvas>
+    <button onclick='window.loadAndPlay()'>Play Animation</button>
+    <button onclick='window.stopAnimation()'>Stop</button>
+    <script>
+    window.drawNetwork = function(layerSizes, activations) {
+        const canvas = document.getElementById('visCanvas');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const neuronRadius = 10;
+        const spacingX = canvas.width / (layerSizes.length + 1);
+
+        for (let l = 0; l < layerSizes.length; l++) {
+            const layerSize = layerSizes[l];
+            const spacingY = canvas.height / (layerSize + 1);
+            for (let n = 0; n < layerSize; n++) {
+                const x = spacingX * (l + 1);
+                const y = spacingY * (n + 1);
+                const activation = activations[l][n];
+                const colorIntensity = Math.floor(activation * 255);
+                ctx.beginPath();
+                ctx.arc(x, y, neuronRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = `rgb(${colorIntensity}, ${255 - colorIntensity}, 150)`;
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+    };
+
+    let currentEpoch = 0;
+    let intervalId = null;
+    let isPlaying = false;
+
+    window.loadAndPlay = async function(fps = 2) {
+        if (isPlaying) return;
+        isPlaying = true;
+
+        const res0 = await fetch(`/file/activations/epoch_0.json`);
+        if (!res0.ok) {
+            console.error(""Cannot load epoch_0.json"");
+            return;
+        }
+        const data0 = await res0.json();
+        window.layerSizes = data0.map(layer => layer.length);  // 动态设置层结构
+        window.drawNetwork(window.layerSizes, data0);
+
+        currentEpoch = 1;
+        intervalId = setInterval(async () => {
+            const res = await fetch(`/file/activations/epoch_${currentEpoch}.json`);
+            if (!res.ok) {
+                clearInterval(intervalId);
+                isPlaying = false;
+                return;
+            }
+            const data = await res.json();
+            window.drawNetwork(window.layerSizes, data);
+            currentEpoch++;
+        }, 1000 / fps);
+    };
+
+    window.stopAnimation = function() {
+        clearInterval(intervalId);
+        isPlaying = false;
+    };
+    </script>
+    ",2025-06-02 11:26:42.007240
