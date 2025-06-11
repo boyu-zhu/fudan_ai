@@ -1,0 +1,4 @@
+# 忽略根目录下的 ckp log文件夹
+/ckp/
+/log/
+/unready_models/
