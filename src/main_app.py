@@ -1,6 +1,8 @@
 import gradio as gr
 from interface.model.kmeans_interface import kmeans_ui
 from interface.model.svm_interface import svm_ui
+from interface.model.cnn_interface import cnn_ui
+
 # from
 # from gradio_interfaces.model_b_interface import model_b_ui
 
@@ -11,10 +13,12 @@ def main():
         with gr.Tabs():
             # Tab 1: 可视化页面
             with gr.Tab("可视化"):
-                model_selector = gr.Dropdown(choices=["K-means", "SVM"], label="选择模型")
+                model_selector = gr.Dropdown(choices=["K-means", "SVM", "CNN"], label="选择模型")
 
                 kmeans_block = gr.Group(visible=True)  # K-means 模型的界面
                 SVM_block = gr.Group(visible=False)
+                CNN_block = gr.Group(visible=False)
+
 
                 # 绑定 Model A 的界面
                 with kmeans_block:
@@ -25,6 +29,10 @@ def main():
                 with SVM_block:
                     svm_ui()
 
+                with CNN_block:
+                    cnn_ui()
+
+
                     # model_b_ui()
                     # pass
 
@@ -32,13 +40,15 @@ def main():
                 def toggle_model(model_name):
                     return (
                         gr.update(visible=(model_name == "K-means")),
-                        gr.update(visible=(model_name == "SVM"))
+                        gr.update(visible=(model_name == "SVM")),
+                        gr.update(visible=(model_name == "CNN"))
+
                     )
 
                 model_selector.change(
                     toggle_model,
                     inputs=model_selector,
-                    outputs=[kmeans_block, SVM_block]
+                    outputs=[kmeans_block, SVM_block, CNN_block]
                 )
 
             # Tab 2: 解释性页面
