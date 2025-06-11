@@ -1,6 +1,6 @@
 import gradio as gr
 from interface.model.kmeans_interface import kmeans_ui
-from interface.model.kmeans_interface import kmeans_ui
+from interface.model.svm_interface import svm_ui
 # from
 # from gradio_interfaces.model_b_interface import model_b_ui
 
@@ -23,6 +23,7 @@ def main():
 
                 # 绑定 Model B 的界面
                 with SVM_block:
+                    svm_ui()
 
                     # model_b_ui()
                     # pass
@@ -31,13 +32,13 @@ def main():
                 def toggle_model(model_name):
                     return (
                         gr.update(visible=(model_name == "K-means")),
-                        gr.update(visible=(model_name == "Model B"))
+                        gr.update(visible=(model_name == "SVM"))
                     )
 
                 model_selector.change(
                     toggle_model,
                     inputs=model_selector,
-                    outputs=[kmeans_block, model_b_block]
+                    outputs=[kmeans_block, SVM_block]
                 )
 
             # Tab 2: 解释性页面

@@ -4,9 +4,9 @@ import tempfile
 import matplotlib.pyplot as plt
 # plt.rcParams['font.sans-serif'] = ['SimHei']  # 中文字体（如黑体）
 # plt.rcParams['axes.unicode_minus'] = False    # 正确显示负号
-# from sklearn.datasets import make_blobs, make_classification
+from sklearn.datasets import make_blobs, make_classification
 # from sklearn.svm import SVC
-from models.svm import KMeansModel 
+from models.svm import SVMModel 
 from PIL import Image, ImageSequence
 import io
 
@@ -33,15 +33,15 @@ def plot_svm_step_visualization(n_samples, n_steps=10):
         X_step = X[selected]
         y_step = y[selected]
 
-        model = SVC(kernel='linear')
+        model = SVMModel()
         model.fit(X_step, y_step)
 
         fig, ax = plt.subplots()
         ax.scatter(X[:, 0], X[:, 1], c=y, cmap='bwr', edgecolors='k', s=60)
 
         # 决策边界
-        w = model.coef_[0]
-        b = model.intercept_[0]
+        w = model.w
+        b = model.b
         x_vals = np.linspace(x_min, x_max, 100)
         y_vals = -(w[0] * x_vals + b) / w[1]
         ax.plot(x_vals, y_vals, 'k--', label="Decision boundary")
@@ -65,36 +65,24 @@ def plot_svm_step_visualization(n_samples, n_steps=10):
 # -----------------------------
 # Gradio 界面
 # -----------------------------
-def main_process(samples, centers):
+def main_process(samples):
     frames = plot_svm_step_visualization(samples)
     gif_path = tempfile.NamedTemporaryFile(delete=False, suffix=".gif").name
     frames[0].save(gif_path, format='GIF', save_all=True, append_images=frames[1:], duration=600, loop=0)
     return frames, gif_path
 
 
-with gr.Blocks() as demo:
-    gr.Markdown("## VisualFlow")
-    # gr.Markdown("### KMeans")
 
-    # algo = "KMeans"
-    with gr.Row():
-        algo = gr.Dropdown(choices=["KMeans", "SVM"], value="KMeans", label="选择算法")
-        sample_slider = gr.Slider(50, 500, step=10, value=200, label="样本数")
-        center_slider = gr.Slider(1, 10, step=1, value=3, label="聚类中心数（仅 KMeans）")
+def svm_ui():
     start_btn = gr.Button("开始可视化")
-
+    sample_slider = gr.Slider(50, 500, step=10, value=200, label="样本数")
     with gr.Row():
         gallery = gr.Gallery(label="可视化过程", columns=2, height="auto", show_label=True)
         gif_view = gr.Image(type="filepath", label="GIF 动画预览")
 
-    def toggle_centers(algorithm):
-        return gr.update(visible=(algorithm == "KMeans"))
-
-    algo.change(toggle_centers, inputs=algo, outputs=center_slider)
     start_btn.click(
-        fn=main_process,
-        inputs=[algo, sample_slider, center_slider],
+        fn=lambda samples: main_process(samples),
+        inputs=[sample_slider],
         outputs=[gallery, gif_view]
     )
-    
-demo.launch()
+
