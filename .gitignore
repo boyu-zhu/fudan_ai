@@ -9,6 +9,6 @@
 
 
 # 包含几个文件
-! /ckp/mobilenetv2-c5e733a8.pth
-! /data/imagenet_classes.txt
-! /data/school_bus.png
+!ckp/mobilenetv2-c5e733a8.pth
+!data/imagenet_classes.txt
+!data/school_bus.png
