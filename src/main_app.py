@@ -3,7 +3,7 @@ from interface.model.kmeans_interface import kmeans_ui
 from interface.model.svm_interface import svm_ui
 from interface.model.cnn_interface import cnn_ui
 from interface.model.mlp_interface import mlp_ui
-from interface.model.mlp_interface import mlp_ui
+from interface.model.randomtree_interface import random_tree_ui
 
 from interface.interpret.shap_interface import shap_ui
 from interface.interpret.lime_interface import lime_ui
@@ -31,12 +31,13 @@ def main():
         with gr.Tabs():
             # Tab 1: 可视化页面
             with gr.Tab("可视化"):
-                model_selector = gr.Dropdown(choices=["K-means", "SVM", "CNN", "MLP"], label="选择模型")
+                model_selector = gr.Dropdown(choices=["K-means", "SVM", "CNN", "MLP", "RandomTree"], label="选择模型")
 
                 kmeans_block = gr.Group(visible=True)  # K-means 模型的界面
                 SVM_block = gr.Group(visible=False)
                 CNN_block = gr.Group(visible=False)
                 MLP_block = gr.Group(visible=False)
+                RandomTree_block = gr.Group(visible=False)
 
 
 
@@ -55,6 +56,9 @@ def main():
                 with MLP_block:
                     mlp_ui()
 
+                with RandomTree_block:
+                    random_tree_ui()
+
                     # model_b_ui()
                     # pass
 
@@ -64,7 +68,8 @@ def main():
                         gr.update(visible=(model_name == "K-means")),
                         gr.update(visible=(model_name == "SVM")),
                         gr.update(visible=(model_name == "CNN")),
-                        gr.update(visible=(model_name == "MLP"))
+                        gr.update(visible=(model_name == "MLP")),
+                        gr.update(visible=(model_name == "RandomTree"))
 
 
                     )
@@ -72,7 +77,7 @@ def main():
                 model_selector.change(
                     toggle_model,
                     inputs=model_selector,
-                    outputs=[kmeans_block, SVM_block, CNN_block, MLP_block]
+                    outputs=[kmeans_block, SVM_block, CNN_block, MLP_block, RandomTree_block]
                 )
 
             # Tab 2: 解释性页面
