@@ -6,3 +6,9 @@
 
 # 忽略所有 *.pyc 文件（包括所有子目录）
 *.pyc
+
+
+# 包含几个文件
+! /ckp/mobilenetv2-c5e733a8.pth
+! /data/imagenet_classes.txt
+! /data/school_bus.png
