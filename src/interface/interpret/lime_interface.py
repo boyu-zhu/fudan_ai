@@ -2,15 +2,15 @@ import gradio as gr
 from interpret.lime_interpreter import LimeFudan
 import numpy as np
 from PIL import Image
-import torchvision.models as models
+# import torchvision.models as models
 import torchvision.transforms as transforms
 import torch
 import os
-
+from models.modelnet_v2 import mobilenet_v2 
 from typing import Dict, Callable
 
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-model = models.mobilenet_v2(weights=models.MobileNet_V2_Weights.DEFAULT).to(device)
+model = mobilenet_v2(weights="DEFAULT").to(device)
 model.eval()
 
 
@@ -62,7 +62,7 @@ def lime_ui():
             type="filepath",  # 直接使用文件路径
             interactive=True
         )
-                num_samples = gr.Slider(100, 5000, step=100, value=1000, label="Number of Samples")
+                num_samples = gr.Slider(100, 5000, step=100, value=100, label="Number of Samples")
                 explain_button = gr.Button("Explain", variant="primary")
             
             # Output components
