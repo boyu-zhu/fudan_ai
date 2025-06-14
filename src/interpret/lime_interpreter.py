@@ -5,10 +5,9 @@ from sklearn.linear_model import Ridge
 from sklearn.metrics import pairwise_distances
 from tqdm import tqdm
 import logging
-import gradio as gr
+from PIL import Image
 import os
 from datetime import datetime
-from PIL import Image
 
 logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(message)s')
 logger = logging.getLogger(__name__)
@@ -24,8 +23,11 @@ class LimeFudan:
         self.random_state = np.random.RandomState(random_state)
         self.kernel_width = kernel_width
         self.alpha = alpha
+        self.saved_images = None
+        self.prediction = None
 
     def explain(self):
+        
         logger.info("Starting explanation process.")
         self.generate_superpixels()
         self.generate_dataset()
@@ -125,7 +127,7 @@ class LimeFudan:
         # Save the composite figure
         fig_path = os.path.join(subfolder, "explanation.jpg")
         plt.savefig(fig_path)
-        plt.show()
+        plt.close()
     
         # Store paths for later use
         self.saved_images = {
@@ -138,53 +140,3 @@ class LimeFudan:
     
     def get_feature_importance(self):
         return self.coef_
-
-
-    def show_gradio_interface(self):
-        """Create a Gradio interface using saved explanation images."""
-
-        from PIL import Image
-
-# 读取图片
-        image = Image.open("/data/zhuboyu/interpret/explanation_logs/20250602_200729/boundary.png")  # 替换为你的图片路径
-        self.saved_images['boundary'] = image
-
-        # Check if we have saved images
-        if not hasattr(self, 'saved_images'):
-            raise ValueError("Please run show_explanation() first to generate images")
-
-
-
-        # Create prediction text
-        pred_text = (f"Prediction: {self.classes.get(self.top_label, str(self.top_label))}\n")
-
-        with gr.Blocks(title="Model Explanation") as interface:
-            gr.Markdown("## Visual Flow")
-            gr.Markdown("### LIME")
-            with gr.Row():
-                # Left column - Original image and prediction
-                with gr.Column():
-                    gr.Image(self.saved_images['original'], label="Original Image")
-                    gr.Textbox(pred_text, label="Model Prediction")
-                    # gr.Textbox("school bus", label="LIME Explanation Class")
-
-                # Right column - Explanation visualizations
-                with gr.Column():
-                    gr.Image(self.saved_images['boundary'], label="LIME Explanation")
-
-
-                    # Add download buttons
-                    with gr.Row():
-                        gr.Button("Download Explanation").click(
-                            fn=lambda: self.saved_images['composite'],
-                            outputs=gr.File(label="Download")
-                        )
-
-            # Add some styling
-            interface.css = """
-            .gradio-container { max-width: 1200px !important; }
-            .download-btn { margin: 5px; }
-            """
-
-        return interface
-
